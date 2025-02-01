@@ -5,6 +5,7 @@
   <a href="#"><img src="https://img.shields.io/badge/Heroku-Deploy-green" alt="Heroku" /></a>
   <a href="#"><img src="https://img.shields.io/badge/OAuth2.0-Secure-orange" alt="OAuth2.0" /></a>
   <a href="#"><img src="https://img.shields.io/badge/JWT-Auth-yellow" alt="JWT" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/Swagger-Documentation-%23Clojure?logo=swagger&logoColor=white" alt="Swagger" /></a>
 </p>
 
 ## Configuração do Projeto
@@ -159,15 +160,22 @@ classDiagram
 
 Isso demonstra a estrutura principal dos modelos do banco de dados, conforme o diagrama de classes proposto.
 
-## Suporte
+## Documentação da API
 
-O Nest é um projeto de código aberto licenciado sob a licença MIT. Ele pode crescer graças aos patrocinadores e ao apoio dos incríveis apoiadores. Se você gostaria de se juntar a eles, por favor, [leia mais aqui](https://docs.nestjs.com/support).
+### Swagger UI
 
-## Fique em Contato
+Acessível em [http://localhost:3000/api](http://localhost:3000/api) durante o desenvolvimento
 
-- Autor - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Arquivo Swagger JSON
+
+Gerado automaticamente na raiz do projeto (`swagger.json`) toda vez que o servidor é iniciado
+
+### Configurações Principais
+
+- CORS habilitado para origens específicas
+- Autenticação JWT integrada
+- Validação de dados com class-validator
+- Tipagem RESTful padrão
 
 ## Licença
 
