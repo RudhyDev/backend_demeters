@@ -1,99 +1,174 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/Docker-Running-blue" alt="Docker" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/NestJS-Framework-red" alt="NestJS" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/PostgreSQL-Database-blue" alt="PostgreSQL" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/Heroku-Deploy-green" alt="Heroku" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/OAuth2.0-Secure-orange" alt="OAuth2.0" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/JWT-Auth-yellow" alt="JWT" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
+## Configuração do Projeto
 
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
+## Compilar e Executar o Projeto
 
 ```bash
-# development
+# desenvolvimento
 $ npm run start
 
-# watch mode
+# modo de observação
 $ npm run start:dev
 
-# production mode
+# modo de produção
 $ npm run start:prod
 ```
 
-## Run tests
+## Executar Testes
 
 ```bash
-# unit tests
+# testes unitários
 $ npm run test
 
-# e2e tests
+# testes e2e
 $ npm run test:e2e
 
-# test coverage
+# cobertura de testes
 $ npm run test:cov
 ```
 
-## Deployment
+## Documentação
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Este projeto é baseado no [NestJS](https://docs.nestjs.com/) e segue os princípios de SOLID, DRY, KISS e Clean Architecture. A seguir, encontra-se o diagrama de classes utilizado como referência para os modelos do banco de dados.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Diagrama de Classes
 
-```bash
-$ npm install -g mau
-$ mau deploy
+```mermaid
+classDiagram
+    class User {
+        +id: UUID
+        +name: String
+        +email: String
+        +password: String
+        +phone: String
+        +createdAt: DateTime
+        +updatedAt: DateTime
+        +getOrders()
+        +updateProfile()
+    }
+
+    class Vendor {
+        +id: UUID
+        +userId: UUID
+        +storeName: String
+        +description: String
+        +cnpj: String
+        +openingHours: String
+        +isDeliveryAvailable: Boolean
+        +isPickupAvailable: Boolean
+        +status: String
+        +getProducts()
+        +updateStore()
+    }
+
+    class Product {
+        +id: UUID
+        +vendorId: UUID
+        +name: String
+        +description: String
+        +price: Decimal
+        +promotionalPrice: Decimal
+        +category: String
+        +unit: String
+        +stock: Integer
+        +isAvailable: Boolean
+        +updateProduct()
+    }
+
+    class Cart {
+        +id: UUID
+        +userId: UUID
+        +total: Decimal
+        +status: String
+        +createdAt: DateTime
+        +updatedAt: DateTime
+        +addItem()
+        +removeItem()
+        +updateQuantity()
+        +checkout()
+    }
+
+    class CartItem {
+        +id: UUID
+        +cartId: UUID
+        +productId: UUID
+        +quantity: Integer
+        +price: Decimal
+        +calculateSubtotal()
+    }
+
+    class Address {
+        +id: UUID
+        +userId: UUID
+        +street: String
+        +number: String
+        +complement: String
+        +neighborhood: String
+        +city: String
+        +state: String
+        +zipCode: String
+        +isDefault: Boolean
+        +updateAddress()
+    }
+
+    class Order {
+        +id: UUID
+        +userId: UUID
+        +vendorId: UUID
+        +addressId: UUID
+        +total: Decimal
+        +deliveryFee: Decimal
+        +status: String
+        +deliveryType: String
+        +createdAt: DateTime
+        +updateStatus()
+    }
+
+    class OrderItem {
+        +id: UUID
+        +orderId: UUID
+        +productId: UUID
+        +quantity: Integer
+        +price: Decimal
+        +calculateSubtotal()
+    }
+
+    User "1" -- "n" Address
+    User "1" -- "n" Cart
+    User "1" -- "n" Order
+    Vendor "1" -- "n" Product
+    Cart "1" -- "n" CartItem
+    CartItem "n" -- "1" Product
+    Order "1" -- "n" OrderItem
+    OrderItem "n" -- "1" Product
+    Order "n" -- "1" Vendor
+    Order "n" -- "1" Address
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Isso demonstra a estrutura principal dos modelos do banco de dados, conforme o diagrama de classes proposto.
 
-## Resources
+## Suporte
 
-Check out a few resources that may come in handy when working with NestJS:
+O Nest é um projeto de código aberto licenciado sob a licença MIT. Ele pode crescer graças aos patrocinadores e ao apoio dos incríveis apoiadores. Se você gostaria de se juntar a eles, por favor, [leia mais aqui](https://docs.nestjs.com/support).
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Fique em Contato
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
+- Autor - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
 - Website - [https://nestjs.com](https://nestjs.com/)
 - Twitter - [@nestframework](https://twitter.com/nestframework)
 
-## License
+## Licença
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+O Nest é licenciado sob a licença [MIT](https://github.com/nestjs/nest/blob/master/LICENSE).

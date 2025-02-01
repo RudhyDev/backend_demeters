@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  phone     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  addresses Address[]
+  carts     Cart[]
+  orders    Order[]
+  vendor    Vendor?   @relation
+}
+
+model Vendor {
+  id                  String    @id @default(uuid())
+  userId              String    @unique
+  storeName           String
+  description         String
+  cnpj                String
+  openingHours        String
+  isDeliveryAvailable Boolean
+  isPickupAvailable   Boolean
+  status              String
+  user                User      @relation(fields: [userId], references: [id])
+  products            Product[]
+  orders              Order[]
+}
+
+model Product {
+  id               String      @id @default(uuid())
+  vendorId         String
+  name             String
+  description      String
+  price            Decimal
+  promotionalPrice Decimal
+  category         String
+  unit             String
+  stock            Int
+  isAvailable      Boolean
+  vendor           Vendor      @relation(fields: [vendorId], references: [id])
+  cartItems        CartItem[]
+  orderItems       OrderItem[]
+}
+
+model Cart {
+  id        String     @id @default(uuid())
+  userId    String
+  total     Decimal
+  status    String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  user      User       @relation(fields: [userId], references: [id])
+  items     CartItem[]
+}
+
+model CartItem {
+  id        String  @id @default(uuid())
+  cartId    String
+  productId String
+  quantity  Int
+  price     Decimal
+  cart      Cart    @relation(fields: [cartId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model Address {
+  id           String  @id @default(uuid())
+  userId       String
+  street       String
+  number       String
+  complement   String
+  neighborhood String
+  city         String
+  state        String
+  zipCode      String
+  isDefault    Boolean
+  user         User    @relation(fields: [userId], references: [id])
+  orders       Order[]
+}
+
+model Order {
+  id           String      @id @default(uuid())
+  userId       String
+  vendorId     String
+  addressId    String
+  total        Decimal
+  deliveryFee  Decimal
+  status       String
+  deliveryType String
+  createdAt    DateTime    @default(now())
+  user         User        @relation(fields: [userId], references: [id])
+  vendor       Vendor      @relation(fields: [vendorId], references: [id])
+  address      Address     @relation(fields: [addressId], references: [id])
+  orderItems   OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Decimal
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+}
