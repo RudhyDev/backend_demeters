@@ -177,6 +177,23 @@ Gerado automaticamente na raiz do projeto (`swagger.json`) toda vez que o servid
 - Validação de dados com class-validator
 - Tipagem RESTful padrão
 
+## Dockerização
+
+### Ambiente de Desenvolvimento
+```bash
+docker-compose up --build
+```
+
+### Ambiente de Produção
+```bash
+docker-compose -f docker-compose.prod.yml up --build -d
+```
+
+### Comandos Úteis
+- Visualizar logs: `docker-compose logs -f backend`
+- Parar containers: `docker-compose down`
+- Limpar volumes: `docker-compose down -v`
+
 ## Licença
 
 O Nest é licenciado sob a licença [MIT](https://github.com/nestjs/nest/blob/master/LICENSE).
