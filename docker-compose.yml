@@ -28,7 +28,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-demeters}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-demeters}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-demeters} -d $${POSTGRES_DB:-demeters}"]
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER:-demeters} -d $${POSTGRES_DB:-demeters}']
       interval: 5s
       timeout: 5s
       retries: 5
