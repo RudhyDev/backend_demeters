@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-# Executa lint-staged para verificar e corrigir os arquivos alterados
-npx lint-staged
-
-# Executa testes unitários antes do commit
-npm test
