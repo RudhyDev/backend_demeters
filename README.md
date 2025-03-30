@@ -149,6 +149,7 @@ classDiagram
     User "1" -- "n" Address
     User "1" -- "n" Cart
     User "1" -- "n" Order
+    User "1" -- "0..1" Vendor
     Vendor "1" -- "n" Product
     Cart "1" -- "n" CartItem
     CartItem "n" -- "1" Product
@@ -159,6 +160,111 @@ classDiagram
 ```
 
 Isso demonstra a estrutura principal dos modelos do banco de dados, conforme o diagrama de classes proposto.
+
+## Diagrama de Relacionamento entre Tabelas
+
+```mermaid
+erDiagram
+    User ||--o{ Address : possui
+    User ||--o{ Cart : possui
+    User ||--o{ Order : realiza
+    User ||--o| Vendor : pode_ser
+    
+    Vendor ||--o{ Product : oferece
+    Vendor ||--o{ Order : recebe
+    
+    Cart ||--o{ CartItem : contem
+    CartItem }o--|| Product : referencia
+    
+    Order ||--o{ OrderItem : contem
+    OrderItem }o--|| Product : referencia
+    Order }o--|| Address : entrega_em
+    
+    User {
+        uuid id PK
+        string name
+        string email
+        string password
+        string phone
+        datetime createdAt
+        datetime updatedAt
+    }
+    
+    Vendor {
+        uuid id PK
+        uuid userId FK
+        string storeName
+        string description
+        string cnpj
+        string openingHours
+        boolean isDeliveryAvailable
+        boolean isPickupAvailable
+        string status
+    }
+    
+    Product {
+        uuid id PK
+        uuid vendorId FK
+        string name
+        string description
+        decimal price
+        decimal promotionalPrice
+        string category
+        string unit
+        integer stock
+        boolean isAvailable
+    }
+    
+    Cart {
+        uuid id PK
+        uuid userId FK
+        decimal total
+        string status
+        datetime createdAt
+        datetime updatedAt
+    }
+    
+    CartItem {
+        uuid id PK
+        uuid cartId FK
+        uuid productId FK
+        integer quantity
+        decimal price
+    }
+    
+    Address {
+        uuid id PK
+        uuid userId FK
+        string street
+        string number
+        string complement
+        string neighborhood
+        string city
+        string state
+        string zipCode
+        boolean isDefault
+    }
+    
+    Order {
+        uuid id PK
+        uuid userId FK
+        uuid vendorId FK
+        uuid addressId FK
+        decimal total
+        decimal deliveryFee
+        string status
+        string deliveryType
+        datetime createdAt
+    }
+    
+    OrderItem {
+        uuid id PK
+        uuid orderId FK
+        uuid productId FK
+        integer quantity
+        decimal price
+    }
+```
 
 ## Documentação da API
 

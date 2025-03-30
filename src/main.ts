@@ -9,7 +9,7 @@ async function bootstrap() {
   try {
     const app = await NestFactory.create(AppModule);
     const port = process.env.PORT || 3000;
-    
+
     app.enableCors({
       origin: '*',
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -30,7 +30,7 @@ async function bootstrap() {
     } catch (error) {
       logger.error('Failed to write swagger file', error);
     }
-    
+
     SwaggerModule.setup('api', app, document);
     app.enableShutdownHooks();
 

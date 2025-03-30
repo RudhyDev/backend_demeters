@@ -4,13 +4,14 @@ services:
   backend:
     build:
       context: .
-      target: development
+      target: builder # Changed from development to builder
     ports:
       - '3000:3000'
       - '9229:9229' # Porta para debug
     environment:
       NODE_ENV: development
       DEBUG: 'nest:*'
+      DATABASE_URL: postgresql://${POSTGRES_USER:-demeters}:${POSTGRES_PASSWORD:-demeters}@postgres:5432/${POSTGRES_DB:-demeters}?schema=public
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
