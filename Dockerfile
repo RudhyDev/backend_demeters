@@ -28,4 +28,4 @@ COPY --from=builder /usr/src/app/dist ./dist
 COPY --from=builder /usr/src/app/node_modules ./node_modules
 
 RUN npm install --only=production
-CMD ["sh", "-c", "npx prisma generate && node dist/main"]
+CMD ["sh", "-c", "npx prisma generate && npx prisma migrate deploy && node dist/main"]
