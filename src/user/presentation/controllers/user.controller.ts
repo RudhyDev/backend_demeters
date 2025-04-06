@@ -11,6 +11,7 @@ import { LoginUserUseCase } from 'src/user/application/use-cases/login-user.use-
 import { RegisterUserUseCase } from 'src/user/application/use-cases/register-user.use-case';
 import { LoginUserDto } from '../dtos/login-user.dto';
 import { RegisterUserDto } from '../dtos/register-user.dto';
+import { LoginUserSwagger, RegisterUserSwagger } from '../utils/user.swagger';
 
 @Controller('users')
 export class UserController {
@@ -19,6 +20,7 @@ export class UserController {
     private readonly loginUserUseCase: LoginUserUseCase,
   ) {}
 
+  @RegisterUserSwagger()
   @Post('register')
   async register(@Body() registerUserDto: RegisterUserDto): Promise<{ id: UUID }> {
     try {
@@ -33,6 +35,7 @@ export class UserController {
     }
   }
 
+  @LoginUserSwagger()
   @Post('login')
   async login(@Body() loginUserDto: LoginUserDto): Promise<{ token: string }> {
     try {
