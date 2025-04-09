@@ -1,12 +1,22 @@
 {
-
+    "yaml.schemas": {
+      "https://www.artillery.io/schema.json": []
+    },
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.rulers": [120],
     "editor.codeActionsOnSave": {
-        "source.organizeImports": "explicit",
-        "source.fixAll": "explicit",
-        "source.fixAll.eslint": "explicit"
-    }, 
-   
-}
+      "source.fixAll": "explicit"
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact"
+    ],
+    "prettier.requireConfig": true
+  }

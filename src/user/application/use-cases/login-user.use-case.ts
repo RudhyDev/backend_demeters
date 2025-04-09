@@ -20,7 +20,6 @@ export class LoginUserUseCase {
 
       //TODO: Implementar geração de token JWT
       const token = 'token-jwt-gerado';
-
       return { token };
     } catch (error) {
       throw error;

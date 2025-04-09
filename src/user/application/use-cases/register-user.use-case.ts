@@ -17,7 +17,9 @@ export class RegisterUserUseCase {
     password: string;
     phone: string;
   }): Promise<RegisterUserResponseDto> {
-    const existingUser: User | null = await this.userRepository.findByEmail(userData.email);
+    const existingUser: User | null = await this.userRepository.findByEmail(
+      userData.email,
+    );
 
     if (existingUser) {
       throw new Error('Usuário com este email já existe');
