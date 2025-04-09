@@ -69,4 +69,16 @@ export class User {
     this._addresses = this._addresses.filter(address => address.id !== addressId);
     this._updatedAt = new Date();
   }
+
+  toJSON() {
+    return {
+      id: this.id,
+      name: this._name,
+      email: this._email,
+      phone: this._phone,
+      createdAt: this.createdAt,
+      updatedAt: this._updatedAt,
+      addresses: this._addresses.map(address => address.toJSON?.() || address)
+    };
+  }
 }

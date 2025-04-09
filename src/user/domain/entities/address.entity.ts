@@ -75,4 +75,20 @@ export class Address {
   getFullAddress(): string {
     return `${this._street}, ${this._number}${this._complement ? `, ${this._complement}` : ''} - ${this._neighborhood}, ${this._city}/${this._state} - CEP: ${this._zipCode}`;
   }
+
+  toJSON() {
+    return {
+      id: this.id,
+      userId: this._userId,
+      street: this._street,
+      number: this._number,
+      complement: this._complement,
+      neighborhood: this._neighborhood,
+      city: this._city,
+      state: this._state,
+      zipCode: this._zipCode,
+      isDefault: this._isDefault,
+      fullAddress: this.getFullAddress()
+    };
+  }
 }
