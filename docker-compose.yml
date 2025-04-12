@@ -4,21 +4,19 @@ services:
   backend:
     build:
       context: .
-      target: development
+      target: development  # Altere para 'production' em ambiente real
     ports:
       - '3000:3000'
-      - '9229:9229' # Porta para debug
+      - '9229:9229'  # Porta para debug
     environment:
       NODE_ENV: development
-      DEBUG: 'nest:*'
       DATABASE_URL: postgresql://demeters:demeters@postgres:5432/demeters?schema=public
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - /usr/src/app/node_modules  # Evita sobrescrita pelo host
     depends_on:
       postgres:
         condition: service_healthy
-    command: npm run start:dev
 
   postgres:
     image: postgres:15
