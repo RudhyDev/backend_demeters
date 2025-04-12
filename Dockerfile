@@ -5,20 +5,20 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY prisma ./prisma/
 
-RUN npm install
+RUN npm install && npm i --save-dev prisma@latest && npm i @prisma/client@latest
 RUN npx prisma generate
 
 COPY . .
 RUN npm run build
 
-FROM node:18-alpine AS development
+FROM node:20-alpine AS development
 WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/node_modules ./node_modules
 COPY . .
-RUN npm install
+RUN npm install && npm i --save-dev prisma@latest && npm i @prisma/client@latest
 RUN npx prisma generate
 
-FROM node:18-alpine AS production
+FROM node:20-alpine AS production
 
 WORKDIR /usr/src/app
 
