@@ -4,7 +4,7 @@ services:
   backend:
     build:
       context: .
-      target: development  # Altere para 'production' em ambiente real
+      target: development  # Alterar para 'production' em ambiente real
     ports:
       - '3000:3000'
       - '9229:9229'  # Porta para debug

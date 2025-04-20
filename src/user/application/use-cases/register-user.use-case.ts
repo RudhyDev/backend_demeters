@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto';
 import { User } from 'src/user/domain/entities/user.entity';
 import { IUserRepository } from 'src/user/domain/interfaces/repositories/user-repository.interface';
 import { RegisterUserResponseDto } from './dtos/register-user-response.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class RegisterUserUseCase {
@@ -25,11 +26,13 @@ export class RegisterUserUseCase {
       throw new Error('Usuário com este email já existe');
     }
 
+    const hashedPassword = await bcrypt.hash(userData.password, 5);
+
     const user = new User(
       randomUUID(),
       userData.name,
       userData.email,
-      userData.password,
+      hashedPassword,
       userData.phone,
       new Date(),
       new Date(),
