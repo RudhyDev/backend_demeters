@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PrismaModule } from 'src/infra/database/prisma.module';
 import { JwtModule } from '@nestjs/jwt';
+import { JwtGlobalModule } from '../auth/jwt-global.module';
 import { LoginUserUseCase } from './application/use-cases/login-user.use-case';
 import { RegisterUserUseCase } from './application/use-cases/register-user.use-case';
 import { UserUseCase } from './application/use-cases/user-use-case';
@@ -8,13 +9,7 @@ import { PrismaUserRepository } from './infrastructure/repositories/prisma-user.
 import { UserController } from './presentation/controllers/user.controller';
 
 @Module({
-  imports: [
-    PrismaModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET || 'meu_texto_super_sercreto!',
-      signOptions: { expiresIn: '24h' },
-    }),
-  ],
+  imports: [PrismaModule, JwtGlobalModule],
   controllers: [UserController],
   providers: [
     RegisterUserUseCase,
