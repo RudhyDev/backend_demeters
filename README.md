@@ -17,11 +17,20 @@ npm install
 ## Compilar e Executar o Projeto
 
 ```bash
-# desenvolvimento
-$ npm run start
+# instalar dependências
+$ npm install
 
-# modo de observação
+# desenvolvimento local (inicia o container do PostgreSQL e a aplicação)
+$ npm run start:local
+
+# modo de desenvolvimento com variáveis de ambiente locais
 $ npm run start:dev
+
+# modo de debug com variáveis de ambiente locais
+$ npm run start:debug
+
+# modo de desenvolvimento com Docker
+$ npm run start:docker
 
 # modo de produção
 $ npm run start:prod
@@ -48,116 +57,116 @@ Este projeto é baseado no [NestJS](https://docs.nestjs.com/) e segue os princí
 
 ```mermaid
 classDiagram
-    class User {
-        +id: UUID
-        +name: String
-        +email: String
-        +password: String
-        +phone: String
-        +createdAt: DateTime
-        +updatedAt: DateTime
-        +getOrders()
-        +updateProfile()
-    }
+direction BT
+class Address {
+   text userId
+   text street
+   text number
+   text complement
+   text neighborhood
+   text city
+   text state
+   text zipCode
+   boolean isDefault
+   text id
+}
+class Cart {
+   text userId
+   numeric(65,30) total
+   text status
+   timestamp(3) createdAt
+   timestamp(3) updatedAt
+   text id
+}
+class CartItem {
+   text cartId
+   text productId
+   integer quantity
+   numeric(65,30) price
+   text id
+}
+class Order {
+   text userId
+   text vendorId
+   text addressId
+   numeric(65,30) total
+   numeric(65,30) deliveryFee
+   text status
+   text deliveryType
+   timestamp(3) createdAt
+   text id
+}
+class OrderItem {
+   text orderId
+   text productId
+   integer quantity
+   numeric(65,30) price
+   text id
+}
+class Product {
+   text vendorId
+   text name
+   text description
+   numeric(65,30) price
+   numeric(65,30) promotionalPrice
+   text category
+   text unit
+   integer stock
+   boolean isAvailable
+   text id
+}
+class User {
+   text name
+   text email
+   text password
+   text phone
+   timestamp(3) createdAt
+   timestamp(3) updatedAt
+   text id
+}
+class Vendor {
+   text userId
+   text storeName
+   text description
+   text cnpj
+   text openingHours
+   boolean isDeliveryAvailable
+   boolean isPickupAvailable
+   text status
+   text id
+}
 
-    class Vendor {
-        +id: UUID
-        +userId: UUID
-        +storeName: String
-        +description: String
-        +cnpj: String
-        +openingHours: String
-        +isDeliveryAvailable: Boolean
-        +isPickupAvailable: Boolean
-        +status: String
-        +getProducts()
-        +updateStore()
-    }
+Address  -->  User : userId:id
 
-    class Product {
-        +id: UUID
-        +vendorId: UUID
-        +name: String
-        +description: String
-        +price: Decimal
-        +promotionalPrice: Decimal
-        +category: String
-        +unit: String
-        +stock: Integer
-        +isAvailable: Boolean
-        +updateProduct()
-    }
+Cart  -->  User : userId:id
 
-    class Cart {
-        +id: UUID
-        +userId: UUID
-        +total: Decimal
-        +status: String
-        +createdAt: DateTime
-        +updatedAt: DateTime
-        +addItem()
-        +removeItem()
-        +updateQuantity()
-        +checkout()
-    }
+CartItem  -->  Cart : cartId:id
 
-    class CartItem {
-        +id: UUID
-        +cartId: UUID
-        +productId: UUID
-        +quantity: Integer
-        +price: Decimal
-        +calculateSubtotal()
-    }
+CartItem  -->  Product : productId:id
 
-    class Address {
-        +id: UUID
-        +userId: UUID
-        +street: String
-        +number: String
-        +complement: String
-        +neighborhood: String
-        +city: String
-        +state: String
-        +zipCode: String
-        +isDefault: Boolean
-        +updateAddress()
-    }
+Order  -->  Address : addressId:id
 
-    class Order {
-        +id: UUID
-        +userId: UUID
-        +vendorId: UUID
-        +addressId: UUID
-        +total: Decimal
-        +deliveryFee: Decimal
-        +status: String
-        +deliveryType: String
-        +createdAt: DateTime
-        +updateStatus()
-    }
+Order  -->  User : userId:id
 
-    class OrderItem {
-        +id: UUID
-        +orderId: UUID
-        +productId: UUID
-        +quantity: Integer
-        +price: Decimal
-        +calculateSubtotal()
-    }
+Order  -->  Vendor : vendorId:id
 
-    User "1" -- "n" Address
-    User "1" -- "n" Cart
-    User "1" -- "n" Order
-    User "1" -- "0..1" Vendor
-    Vendor "1" -- "n" Product
-    Cart "1" -- "n" CartItem
-    CartItem "n" -- "1" Product
-    Order "1" -- "n" OrderItem
-    OrderItem "n" -- "1" Product
-    Order "n" -- "1" Vendor
-    Order "n" -- "1" Address
+OrderItem  -->  Order : orderId:id
+
+OrderItem  -->  Product : productId:id
+
+Product  -->  Vendor : vendorId:id
+
+Vendor  -->  User : userId:id
 ```
+
+## Arquitetura
+
+Este projeto segue os princípios da Clean Architecture, com uma clara separação de responsabilidades:
+
+- **Domain**: Contém as entidades de negócio e interfaces de repositório
+- **Application**: Contém os casos de uso e DTOs
+- **Infrastructure**: Implementações concretas dos repositórios
+- **Presentation**: Controllers e adaptadores para a API
 
 Isso demonstra a estrutura principal dos modelos do banco de dados, conforme o diagrama de classes proposto.
 
