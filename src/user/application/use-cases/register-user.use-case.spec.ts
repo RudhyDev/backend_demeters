@@ -1,10 +1,13 @@
 import { RegisterUserUseCase } from './register-user.use-case';
 import { IUserRepository } from '../../domain/interfaces/repositories/user-repository.interface';
 import { User } from '../../domain/entities/user.entity';
-import * as bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
 
-jest.mock('bcrypt');
+jest.mock('bcrypt', () => ({
+  hash: jest.fn(),
+}));
+
+import * as bcrypt from 'bcrypt';
 
 describe('RegisterUserUseCase', () => {
   let useCase: RegisterUserUseCase;
