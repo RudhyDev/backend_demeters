@@ -1,12 +1,12 @@
 import { ConflictException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
-jest.mock('bcrypt', () => ({ compare: jest.fn(), hash: jest.fn() }));
-
 import { UserController } from './user.controller';
 import { LoginUserUseCase } from 'src/user/application/use-cases/login-user.use-case';
 import { RegisterUserUseCase } from 'src/user/application/use-cases/register-user.use-case';
 import { UserUseCase } from 'src/user/application/use-cases/user-use-case';
 import { RegisterUserDto } from '../dtos/register-user.dto';
 import { LoginUserDto } from '../dtos/login-user.dto';
+
+jest.mock('bcrypt', () => ({ compare: jest.fn(), hash: jest.fn() }));
 
 describe('UserController', () => {
   let controller: UserController;
