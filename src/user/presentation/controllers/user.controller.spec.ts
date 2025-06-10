@@ -1,17 +1,15 @@
 import { ConflictException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 jest.mock('bcrypt', () => ({ compare: jest.fn(), hash: jest.fn() }));
 
-import type { UserController as UserControllerType } from './user.controller';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { UserController } = require('./user.controller');
-import type { LoginUserUseCase } from 'src/user/application/use-cases/login-user.use-case';
-import type { RegisterUserUseCase } from 'src/user/application/use-cases/register-user.use-case';
+import { UserController } from './user.controller';
+import { LoginUserUseCase } from 'src/user/application/use-cases/login-user.use-case';
+import { RegisterUserUseCase } from 'src/user/application/use-cases/register-user.use-case';
 import { UserUseCase } from 'src/user/application/use-cases/user-use-case';
 import { RegisterUserDto } from '../dtos/register-user.dto';
 import { LoginUserDto } from '../dtos/login-user.dto';
 
 describe('UserController', () => {
-  let controller: UserControllerType;
+  let controller: UserController;
   let registerUseCase: jest.Mocked<RegisterUserUseCase>;
   let loginUseCase: jest.Mocked<LoginUserUseCase>;
   let userUseCase: jest.Mocked<UserUseCase>;
