@@ -3,9 +3,12 @@ import { IUserRepository } from '../../domain/interfaces/repositories/user-repos
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../../domain/entities/user.entity';
 import { randomUUID } from 'crypto';
-import * as bcrypt from 'bcrypt';
 
-jest.mock('bcrypt');
+jest.mock('bcrypt', () => ({
+  compare: jest.fn(),
+}));
+
+import * as bcrypt from 'bcrypt';
 
 describe('LoginUserUseCase', () => {
   let useCase: LoginUserUseCase;
