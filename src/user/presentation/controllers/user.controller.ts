@@ -7,7 +7,7 @@ import {
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { User } from '../../domain/entities/user.entity';
 import { UUID } from 'crypto';
 import { LoginUserUseCase } from 'src/user/application/use-cases/login-user.use-case';
 import { RegisterUserUseCase } from 'src/user/application/use-cases/register-user.use-case';
