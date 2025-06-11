@@ -5,6 +5,8 @@ import { RegisterUserUseCase } from 'src/user/application/use-cases/register-use
 import { UserUseCase } from 'src/user/application/use-cases/user-use-case';
 import { RegisterUserDto } from '../dtos/register-user.dto';
 import { LoginUserDto } from '../dtos/login-user.dto';
+import { UserAdapter } from '../../application/adapters/user.adapter';
+import { User } from '../../domain/entities/user.entity';
 
 describe('UserController', () => {
   let controller: UserController;
@@ -75,12 +77,16 @@ describe('UserController', () => {
   });
 
   describe('findAll', () => {
-    it('should return list of users', async () => {
-      const users: any[] = [{}, {}];
+    it('should return list of users as DTOs', async () => {
+      const users: User[] = [{ id: '1', name: 'User1', email: 'user1@example.com' } as any, { id: '2', name: 'User2', email: 'user2@example.com' } as any];
+      const userDtos = UserAdapter.toDtoList(users);
+      
+      jest.spyOn(UserAdapter, 'toDtoList').mockReturnValue(userDtos);
       userUseCase.findAll.mockResolvedValue(users);
 
-      await expect(controller.findAll()).resolves.toEqual(users);
+      await expect(controller.findAll()).resolves.toEqual(userDtos);
       expect(userUseCase.findAll).toHaveBeenCalled();
+      expect(UserAdapter.toDtoList).toHaveBeenCalledWith(users);
     });
 
     it('should throw InternalServerErrorException on error', async () => {

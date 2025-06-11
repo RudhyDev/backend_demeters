@@ -7,8 +7,9 @@ import {
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
-import { User } from '../../domain/entities/user.entity';
 import { UUID } from 'crypto';
+import { UserAdapter } from '../../application/adapters/user.adapter';
+import { UserResponseDto } from '../../application/dtos/user-response.dto';
 import { LoginUserUseCase } from 'src/user/application/use-cases/login-user.use-case';
 import { RegisterUserUseCase } from 'src/user/application/use-cases/register-user.use-case';
 import { UserUseCase } from 'src/user/application/use-cases/user-use-case';
@@ -30,9 +31,8 @@ export class UserController {
     @Body() registerUserDto: RegisterUserDto,
   ): Promise<{ id: UUID }> {
     try {
-      const user = await this.registerUserUseCase.execute(registerUserDto);
-
-      return user;
+      const result = await this.registerUserUseCase.execute(registerUserDto);
+      return { id: result.id };
     } catch (error) {
       if (error.message === 'Usuário com este email já existe') {
         throw new ConflictException('Usuário com este email já existe');
@@ -58,9 +58,10 @@ export class UserController {
   }
 
   @Get('all')
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<UserResponseDto[]> {
     try {
-      return await this.userUseCase.findAll();
+      const users = await this.userUseCase.findAll();
+      return UserAdapter.toDtoList(users);
     } catch (error) {
       throw new InternalServerErrorException('Erro ao buscar usuários');
     }
